@@ -1,0 +1,3 @@
+Hello Ajax
+
+Welcome to ajax request
