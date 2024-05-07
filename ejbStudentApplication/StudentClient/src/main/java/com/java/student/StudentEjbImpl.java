@@ -7,6 +7,27 @@ import javax.faces.context.FacesContext;
 import javax.naming.NamingException;
 
 public class StudentEjbImpl {
+	
+private static String modelView = "close";
+	
+	public String getModelView() {
+        return modelView;
+    }
+	public void setModelView(String modelView) {
+        this.modelView = modelView;
+    }
+	
+	public void togelModelView() {
+		Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+		if(modelView.equals("open")) {
+			modelView = "close";
+			sessionMap.put("modelView", modelView);
+		}else if(modelView.equals("close")){
+			modelView = "open";
+			sessionMap.put("modelView", modelView);
+		}
+	}
+	
 	public List<Student> showStudent() throws NamingException  {
 		StudentBeenRemote remote = RemoteHelper.lookupRemoteStatelessEmploy();
 		return remote.showStudent();
@@ -24,20 +45,28 @@ public class StudentEjbImpl {
 		return "EmployDaoTable.jsp?faces-redirect=true";
 	}
 	
-	public String searchStudent(int rollno) throws NamingException {
+	public Student searchStudent(int rollno) throws NamingException {
 		StudentBeenRemote remote = RemoteHelper.lookupRemoteStatelessEmploy();
-		Student student = remote.searchStudent(rollno);
-		Map<String,Object> sessionMap = 
-				FacesContext.getCurrentInstance().getExternalContext().getSessionMap();		
-		 sessionMap.put("studentMap", student);
-		 return "UpdateStudent.jsp?faces-redirect=true";
-		
+		Student student= remote.searchStudent(rollno);
+		return student;
 	}
+
+	public void searchStudentEJb(int rollno) throws NamingException {
+	    System.out.println("hit...........");
+	    StudentBeenRemote remote = RemoteHelper.lookupRemoteStatelessEmploy();
+	    Student student = remote.searchStudent(rollno);
+	    System.out.println("student..........." + student);
+	    Map<String, Object> sessionMap = FacesContext.getCurrentInstance().getExternalContext().getSessionMap();
+	    sessionMap.put("studentMap", student); // Set the studentMap attribute
+	    togelModelView();
+	}
+
 	
-	public String updateStudent(Student student) throws NamingException {
+	public void updateStudent(Student student) throws NamingException {
 		StudentBeenRemote remote = RemoteHelper.lookupRemoteStatelessEmploy();
 		remote.updateStudent(student);
-		return "ShowStudent.jsp?faces-redirect=true";
+		togelModelView();
+
 	}
 	
 }
