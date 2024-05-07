@@ -26,7 +26,8 @@ Sec
                     <h:inputText id="dept" value="#{student.sec}" />
 		<br />
 
-		<h:commandButton value="Insert" action="#{studentImpl.addStudent(student)}" />
+		<h:commandButton value="Insert"
+			action="#{studentImpl.addStudent(student)}" />
 
 	</h:form>
 </body>

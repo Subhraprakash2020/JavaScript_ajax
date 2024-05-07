@@ -21,7 +21,6 @@ $('#show_emp').on('click', function() {
             $(data).each(function(key, val) {
                 console.log("Inside function")
                 console.log('key,val ::', key, val);
-                // $('.student_list').append('<li class="list">' + val.Slno + '-' + val.Rollno + '-' + val.Name + '-' + val.Branch + '-' + val.Semistar + '-' + val.Payment + '</li>')
                 $('#myTable').append('<tr><td class ="id">' + val.employeeId + '</td>,<td>' + val.employeeName + '</td>,<td>' + val.employeeSalary +'</td></tr>')
 
             })
@@ -31,4 +30,31 @@ $('#show_emp').on('click', function() {
 
     })
 
+})
+
+$('#add').on('click', function(){
+    var eid = $('#eid').val();
+    var ename = $('#ename').val();
+    var esalary = $('#esalary').val();
+
+    var url = 'http://localhost:8085/employee';
+    var data = {
+        "employeeId": eid,
+        "employeeName": ename,
+        "employeeSalary": esalary
+    }
+    console.log("data",data),
+
+    $.ajax({
+        type: "POST",
+        url: url,
+        data: JSON.stringify(data),
+        contentType: "application/json",
+        
+        success: function(data, status, shr){
+            console.log("Inside ajax")
+            $('.emp_list').append('<li class="list" data-id="' + eid + '">' + ename + ' - ' + esalary +  '</li>')
+
+        }
+    })
 })

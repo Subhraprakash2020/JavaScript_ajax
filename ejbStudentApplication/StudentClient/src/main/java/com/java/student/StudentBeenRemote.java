@@ -10,6 +10,6 @@ public interface StudentBeenRemote {
 	String addStudent(Student student);
 	Student searchStudent(int rollno);
 	String deleteStudentRecord(int rollno);
-	Student searchStudent(Student student);
+	Student searchStudentEjb(Student student);
 	String updateStudent(Student student);
 }
